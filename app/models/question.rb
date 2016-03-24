@@ -16,4 +16,12 @@ class Question < ActiveRecord::Base
     through: :answer_choices,
     source: :responses
 
+  def results
+    q_results = {}
+    answer_choices.each do |a_choice|
+      q_results[a_choice.text] = a_choice.responses.count
+    end
+    q_results
+  end
+
 end
