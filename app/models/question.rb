@@ -17,10 +17,17 @@ class Question < ActiveRecord::Base
     source: :responses
 
   def results
+
     q_results = {}
-    answer_choices.each do |a_choice|
-      q_results[a_choice.text] = a_choice.responses.count
+
+    counts = answer_choices.joins("LEFT OUTER JOIN responses ON answer_choices.id = responses.answer_choice_id")
+      .select("answer_choices.text, COUNT(responses.id) AS num_responses")
+      .group("answer_choices.id")
+
+    counts.each do |answer_choice|
+      q_results[answer_choice.text] = answer_choice.num_responses
     end
+
     q_results
   end
 

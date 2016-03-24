@@ -2,7 +2,7 @@ class Response < ActiveRecord::Base
   validates :answer_choice_id, :user_id, presence: true
   validate :not_duplicate_response
   validate :not_poll_author
-  
+
   belongs_to :respondent,
     foreign_key: :user_id,
     primary_key: :id,
